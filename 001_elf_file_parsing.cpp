@@ -34,7 +34,7 @@ private:
 	uint8_t type;
 };
 
-char *dataToStr(uint8_t val) {
+const char *dataToStr(uint8_t val) {
 	switch (val) {
 		case 0: 
 		case 1: return "2's complement, little endian";
@@ -42,7 +42,7 @@ char *dataToStr(uint8_t val) {
 		default: return "Invalid data encoding";
 	}
 }
-char *typeToStr(uint16_t val) {
+const char *typeToStr(uint16_t val) {
 	switch (val) {
 		case 0: return "NONE";
 		case 1: return "REL";
@@ -55,6 +55,15 @@ char *typeToStr(uint16_t val) {
 	}
 }
 
+const char *machineToStr(uint16_t val) {
+	switch(val) {
+		case 0: return "No machine";
+		case 40: return "ARM";
+		case 62: return "AMD x86-64 architecture";
+		case 183: return "ARM AARCH64";
+		default: return "";
+	}
+}
 /**
  * 功能：实现类似 readelf -h ./a.out 打印 ELF 文件头部信息
  * 编译：g++ main.cpp
@@ -71,15 +80,15 @@ int main(int argc, char **argv) {
 	if (path) {
 		fd = open(path, O_RDONLY);
 	}
-	printf("%s fd:%d\r\n", path, fd);
+	// printf("%s fd:%d\r\n", path, fd);
 
 	uint8_t buffer[64]; // Elf32 Header 52 bytes; Elf64 Header 64 bytes. 此处最大读取64字节
 	ssize_t count = read(fd, buffer, sizeof(buffer));
-	printf("count: %ld ", count);
-	for (ssize_t i=0; i<count; i++) {
-		printf(" %02x", buffer[i]);
-	}
-	printf("\r\n");
+	// printf("count: %ld ", count);
+	// for (ssize_t i=0; i<count; i++) {
+	// 	printf(" %02x", buffer[i]);
+	// }
+	// printf("\r\n");
 	if (buffer[0] == 0x7f && buffer[1] == 'E' && buffer[2] == 'L' && buffer[3] == 'F') {
 		// 是 elf 文件
 		printf("ELF Header:\r\n");
@@ -99,18 +108,18 @@ int main(int argc, char **argv) {
 		printf("  %-34s %s\r\n", "OS/ABI:");
 		printf("  %-34s %s\r\n", "ABI Version:");
 		printf("  %-34s %s\r\n", "Type:", typeToStr(header.getEhdr64()->e_type));
-		printf("  %-34s %s\r\n", "Machine:");
-		printf("  %-34s %s\r\n", "Version:");
-		printf("  %-34s %s\r\n", "Entry point address:");
-		printf("  %-34s %s\r\n", "Start of program headers:");
-		printf("  %-34s %s\r\n", "Start of section headers:");
-		printf("  %-34s %s\r\n", "Flags:");
-		printf("  %-34s %s\r\n", "Size of this header:");
-		printf("  %-34s %s\r\n", "Size of program headers:");
-		printf("  %-34s %s\r\n", "Number of program headers:");
-		printf("  %-34s %s\r\n", "Size of section headers:");
-		printf("  %-34s %s\r\n", "Size of section headers:");
-		printf("  %-34s %s\r\n", "Section header string table index:");
+		printf("  %-34s %s\r\n", "Machine:", machineToStr(header.getEhdr64()->e_machine));
+		printf("  %-34s %#x\r\n", "Version:", header.getEhdr64()->e_version);
+		printf("  %-34s %#lx\r\n", "Entry point address:", header.getEhdr64()->e_entry);
+		printf("  %-34s %d\r\n", "Start of program headers:", header.getEhdr64()->e_ehsize);
+		printf("  %-34s %d\r\n", "Start of section headers:", header.getEhdr64()->e_shnum * header.getEhdr64()->e_shentsize);
+		printf("  %-34s %#x\r\n", "Flags:", header.getEhdr64()->e_flags);
+		printf("  %-34s %d (bytes)\r\n", "Size of this header:", header.getEhdr64()->e_ehsize);
+		printf("  %-34s %d (bytes)\r\n", "Size of program headers:", header.getEhdr64()->e_phentsize);
+		printf("  %-34s %d\r\n", "Number of program headers:", header.getEhdr64()->e_phnum);
+		printf("  %-34s %d (bytes)\r\n", "Size of section headers:", header.getEhdr64()->e_shentsize);
+		printf("  %-34s %d\r\n", "Number of section headers:", header.getEhdr64()->e_shnum);
+		printf("  %-34s %d\r\n", "Section header string table index:", header.getEhdr64()->e_shstrndx);
 		
 		
 	}
