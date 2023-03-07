@@ -8,10 +8,13 @@
 
 ## 目录
 
-| 目录 | 备注 | 
+| 目录 | 备注 |
 | - | - |
 | [001_elf_file_parsing](001_elf_file_parsing) | elf 文件解析 |
-| [002_fun_call_test](002_fun_call_test)| aarch64 下函数调用栈分析 | 
+| [002_fun_call_test](002_fun_call_test)| aarch64 下函数调用栈分析 |
+| [003_learn_json_cjson](003_learn_json_cjson) | json cJson 学习 |
+| [004_construction_destruction_sequence_test](004_construction_destruction_sequence_test) | 构造、析构顺序测试 |
+| [005_binary_tree](005_binary_tree) | 二叉树的遍历 |
 
 
 
