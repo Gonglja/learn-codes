@@ -17,6 +17,8 @@
 | [005_binary_tree](005_binary_tree) | 二叉树的遍历 |
 | [006_net_protocol](006_net_protocol) | 学习网络层到传输层的协议demo |
 | [007_makefile](007_makefile) | makefile 学习 |
+| [008_cross-compile-script](008_cross-compile-script) | 一些交叉编译脚本 |
+| [009_virtual_serial_port_separator](009_virtual_serial_port_separator) | linux 下一款从实体串口分为两个虚拟串口的小工具 |
 
 
 
