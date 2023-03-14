@@ -20,6 +20,4 @@
 | [008_cross-compile-script](008_cross-compile-script) | 一些交叉编译脚本 |
 | [009_virtual_serial_port_separator](009_virtual_serial_port_separator) | linux 下一款从实体串口分为两个虚拟串口的小工具 |
 | [010_shells](010_shells) | 一些 shell 脚本 |
-
-
-
+| [011_set_thread_name](011_set_thread_name)| 设置线程名|
